@@ -10,41 +10,62 @@ import UIKit
 
 final class AppDetailViewController: UIViewController {
     
-    public var app: ITunesApp?
-    
-    private let imageDownloader = ImageDownloader()
-    
-    private var appDetailView: AppDetailView {
-        return self.view as! AppDetailView
-    }
+    public var app: ITunesApp!
+    lazy var headerViewController = AppDetailHeaderViewController(app: app)
     
     // MARK: - Lifecycle
-    
-    override func loadView() {
-        super.loadView()
-        self.view = AppDetailView()
-    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.configureNavigationController()
-        self.downloadImage()
+        
+        self.configureView()
     }
     
     // MARK: - Private
     
+    func configureView() {
+        self.view.backgroundColor = .systemBackground
+        self.configureNavigationController()
+        self.addHeaderViewController()
+        self.addDescriptionViewController()
+    }
+    
     private func configureNavigationController() {
-        self.navigationController?.navigationBar.tintColor = UIColor.white;
+        self.navigationController?.navigationBar.tintColor = UIColor.white
         self.navigationItem.largeTitleDisplayMode = .never
     }
     
-    private func downloadImage() {
-        guard let url = self.app?.iconUrl else { return }
-        self.appDetailView.throbber.startAnimating()
-        self.imageDownloader.getImage(fromUrl: url) { (image, error) in
-            self.appDetailView.throbber.stopAnimating()
-            guard let image = image else { return }
-            self.appDetailView.imageView.image = image
-        }
+    private func addHeaderViewController() {
+        self.addChild(headerViewController)
+        let headerView = headerViewController.view!
+        self.view.addSubview(headerView)
+        headerViewController.didMove(toParent: self)
+        
+        headerView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            headerView.topAnchor.constraint(equalTo: self.view.topAnchor),
+            headerView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            headerView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor)
+        ])
     }
+    
+    private func addDescriptionViewController() {
+        // ДЗ, сделать свой контроллер
+        let descriptionViewController = UIViewController()
+        
+        self.addChild(descriptionViewController)
+        let descriptionView = descriptionViewController.view!
+        self.view.addSubview(descriptionView)
+        descriptionViewController.didMove(toParent: self)
+        
+        descriptionView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            descriptionView.topAnchor.constraint(equalTo: self.headerViewController.view.bottomAnchor),
+            descriptionView.leftAnchor.constraint(equalTo: self.view.leftAnchor),
+            descriptionView.rightAnchor.constraint(equalTo: self.view.rightAnchor),
+        ])
+    }
+
 }
