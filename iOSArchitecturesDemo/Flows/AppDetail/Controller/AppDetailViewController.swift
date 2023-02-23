@@ -12,6 +12,7 @@ final class AppDetailViewController: UIViewController {
     
     public var app: ITunesApp!
     lazy var headerViewController = AppDetailHeaderViewController(app: app)
+    lazy var newVersionsViewController = NewVersionsViewController(app: app)
     
     // MARK: - Lifecycle
 
@@ -27,7 +28,7 @@ final class AppDetailViewController: UIViewController {
         self.view.backgroundColor = .systemBackground
         self.configureNavigationController()
         self.addHeaderViewController()
-        self.addDescriptionViewController()
+        self.addNewVersionsViewController()
     }
     
     private func configureNavigationController() {
@@ -50,21 +51,19 @@ final class AppDetailViewController: UIViewController {
         ])
     }
     
-    private func addDescriptionViewController() {
-        // ДЗ, сделать свой контроллер
-        let descriptionViewController = UIViewController()
+    private func addNewVersionsViewController() {
         
-        self.addChild(descriptionViewController)
-        let descriptionView = descriptionViewController.view!
-        self.view.addSubview(descriptionView)
-        descriptionViewController.didMove(toParent: self)
+        self.addChild(newVersionsViewController)
+        let newVersionsView = newVersionsViewController.view!
+        self.view.addSubview(newVersionsView)
+        newVersionsViewController.didMove(toParent: self)
         
-        descriptionView.translatesAutoresizingMaskIntoConstraints = false
+        newVersionsView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            descriptionView.topAnchor.constraint(equalTo: self.headerViewController.view.bottomAnchor),
-            descriptionView.leftAnchor.constraint(equalTo: self.view.leftAnchor),
-            descriptionView.rightAnchor.constraint(equalTo: self.view.rightAnchor),
+            newVersionsView.topAnchor.constraint(equalTo: self.headerViewController.view.bottomAnchor),
+            newVersionsView.leftAnchor.constraint(equalTo: self.view.leftAnchor),
+            newVersionsView.rightAnchor.constraint(equalTo: self.view.rightAnchor),
         ])
     }
 

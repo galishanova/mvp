@@ -117,7 +117,7 @@ struct AppDetailHeaderView_Preview: PreviewProvider {
         view.titleLabel.text = "ВКонтакте. Ваша социальная сеть"
         view.subtitleLabel.text = "Mail.ru"
         return UIPreviewView(view)
-            .preferredColorScheme(.dark)
+            .preferredColorScheme(.light)
             .previewLayout(.fixed(width: 375, height: 200))
     }
 }
